@@ -5,6 +5,7 @@ require 'yaml'
 Bundler.require(:default, :development)
 
 require_relative '../lib/population'
+require_relative '../lib/location_analysis'
 
 Dir[File.join(File.dirname(__FILE__), "../app/models", "*.rb")].each {|f| require f}
 

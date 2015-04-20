@@ -1,3 +1,5 @@
+require_relative '../config/environment'
+
 Instagram.configure do |config|
   config.client_id = "399548aa88ad4458ad3a0c347b07df06"
   config.client_secret = "46b4b03b33ea4a2f96fb2f24bc33ed83"

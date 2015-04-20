@@ -5,6 +5,7 @@ gem "sqlite3"
 gem "activerecord"
 gem "rake"
 gem "database_cleaner"
+gem "google_places"
 
 group :development do
   gem 'pry'

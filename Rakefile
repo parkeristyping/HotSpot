@@ -1,7 +1,6 @@
 require_relative 'config/environment.rb'
 
 namespace :db do
-
   desc "Migrate the db"
   task :migrate do
     connection_details = YAML::load(File.open('config/database.yml'))
@@ -27,5 +26,12 @@ namespace :pop do
 
   task :posts do
     Populate.posts
+  end
+end
+
+namespace :create do
+  desc "Create locations from post database"
+  task :locations do
+    Analyze.locations
   end
 end
