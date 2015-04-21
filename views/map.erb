@@ -15,7 +15,7 @@
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true"></script>
     <script>
       function initialize() {
-        var myLatlng = new google.maps.LatLng(40.727231, -73.984195); // Put centering lat/lng here
+        var myLatlng = new google.maps.LatLng(40.727231, -73.984195);
         var mapOptions = {
           zoom: 5,
           center: myLatlng
@@ -23,7 +23,7 @@
 
         var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 
-        var locations = <%= LocationList.create %>;
+        var locations = <%= LocationList.create(@locations) %>;
 
         var infowindow = new google.maps.InfoWindow();
 

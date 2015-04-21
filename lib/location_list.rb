@@ -5,10 +5,9 @@
 # ['Maroubra Beach', -33.950198, 151.259302, 1]
 
 class LocationList
-
-  def self.create
+  def self.create(locations)
     output = []
-    Location.all.each {|location|
+    locations.each {|location|
       row << "["
       location.posts.each_with_index {|post, index|
         row << "\'<div class=\"post-wrap\">"
@@ -22,5 +21,4 @@ class LocationList
     }
     output.join(",")
   end
-
 end
