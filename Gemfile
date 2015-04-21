@@ -10,6 +10,7 @@ gem "require_all"
 gem "rake"
 gem "database_cleaner"
 gem "google_places"
+gem "htmlentities"
 
 group :development do
   gem 'pry'
