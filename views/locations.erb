@@ -8,8 +8,40 @@
       html, body, #map-canvas {
         height: 100%;
         margin: 0px;
-        padding: 0px
+        padding: 0px;
       }
+      #sidebar {
+        float: left;
+        height: 100%;
+        width: 250px;
+        background-color: blue;
+      }
+      .pop-out {
+        font-family: sans-serif;
+      }
+      .post-wrap {
+        width: 320px;
+        display: block;
+        border-style: solid;
+      }
+      h2.loc-name {
+        /*display: block;*/
+        /*border-style: solid;*/
+      }
+      .post-thumb {
+        display: block;
+        border-style: solid;
+      }
+      .user {
+        font-weight: bold;
+        /*display: block;*/
+        /*border-style: solid;*/
+      }
+      .post-caption {
+        /*display: block;*/
+        /*border-style: solid;*/
+      }
+
     </style>
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true"></script>
     <script>
@@ -47,6 +79,7 @@
     </script>
   </head>
   <body>
+    <div id="sidebar"></div>
     <div id="map-canvas"></div>
   </body>
 </html>
