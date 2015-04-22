@@ -6,16 +6,33 @@
     <title>HotSpot</title>
     <style>
       html, body, #map-canvas {
-        height: 100%;
+        /*height: 100%;*/
         margin: 0px;
         padding: 0px;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        z-index: 1;
       }
       #sidebar {
-        float: left;
+        /*height: 85%;*/
         height: 100%;
-        width: 250px;
-        background-color: blue;
+        width: 360px;
+        position: absolute;
+        /*margin-left: 0px;*/
+        /*margin-top: 15px;*/
+        vertical-align: left;
+        opacity: 1;
+        z-index: 2;
+        background-image: url("http://hereisahand.com/img/paper 2.png");
       }
+
+      ul.hawtspots {
+        font-size: 20px;
+        margin-top: 200px;
+        margin-left: 30px;
+      }
+
       .pop-out {
         font-family: sans-serif;
       }
@@ -48,8 +65,15 @@
       function initialize() {
         var myLatlng = new google.maps.LatLng(40.727231, -73.984195);
         var mapOptions = {
-          zoom: 5,
-          center: myLatlng
+          zoom: 8,
+          center: myLatlng,
+          disableDefaultUI: true,
+          panControl: false,
+          zoomControl: true,
+          mapTypeControl: false,
+          scaleControl: true,
+          streetViewControl: false,
+          overviewMapControl: true
         };
 
         var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
@@ -58,12 +82,15 @@
 
         var infowindow = new google.maps.InfoWindow();
 
+        var image = 'http://hereisahand.com/img/flame.png';
+
         var marker, i;
 
         for (i = 0; i < locations.length; i++) {  
           marker = new google.maps.Marker({
             position: new google.maps.LatLng(locations[i][1], locations[i][2]),
-            map: map
+            map: map,
+            icon: image
           });
 
           google.maps.event.addListener(marker, 'click', (function(marker, i) {
@@ -79,7 +106,13 @@
     </script>
   </head>
   <body>
-    <div id="sidebar"></div>
+    <div id="sidebar">
+      <ul class="hawtspots">
+        <% @locations.each do |location| %>
+        <li><%= location.name %></li>
+        <% end %>
+      </ul>
+    </div>
     <div id="map-canvas"></div>
   </body>
 </html>

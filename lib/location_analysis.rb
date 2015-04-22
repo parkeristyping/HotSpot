@@ -84,5 +84,21 @@ class Analyze
         relevant_posts.delete_if {|post| matches.include? post}
       end
     }
+
+    # Add location URL and count
+    google_client = GooglePlacesAPI.new("AIzaSyCjMO586R2fZZjzfrcOAIzhdZ4QgS9oFxk")
+
+    Location.all.each {|location|
+      location.count = location.users.uniq.size
+      google_url = google_client.get_url(location.lat, location.lng, location.name)
+      wiki = Wikipedia.find(location.name, :prop => "info")
+      if google_url
+        location.url = google_url
+      elsif wiki && (wiki.page["pageid"] != -1)
+        location.url = wiki.fullurl
+      end
+      location.save
+    }
+    binding.pry
   end
 end

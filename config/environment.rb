@@ -3,6 +3,7 @@ Bundler.require(:default, :development)
 require 'active_record'
 require 'yaml'
 require 'csv'
+require 'wikipedia'
 
 connection_details = YAML::load(File.open('config/database.yml'))
 ActiveRecord::Base.establish_connection(connection_details)

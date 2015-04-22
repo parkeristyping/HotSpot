@@ -9,8 +9,10 @@ gem "shotgun"
 gem "require_all"
 gem "rake"
 gem "database_cleaner"
-gem "google_places"
+# gem "google_places"
 gem "htmlentities"
+gem "wikipedia-client"
+gem "httparty"
 
 group :development do
   gem 'pry'

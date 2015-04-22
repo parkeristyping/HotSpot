@@ -9,11 +9,15 @@ class Populate
 
   def self.users
     CSV.read('celebrities.csv').each {|celebrity|
-      u = User.new
-      u.instagram_username = celebrity.first
-      u.instagram_id = Instagram.user_search(celebrity.first).first["id"]
-      u.save
-      print "."
+      begin
+        u = User.new
+        u.instagram_username = celebrity.first
+        u.instagram_id = Instagram.user_search(celebrity.first).first["id"]
+        u.save
+        print "."
+      rescue
+        print "#{celebrity} not found\n"
+      end
     }
     print "\n"
   end
@@ -46,7 +50,11 @@ class Populate
         }
         print "\n"
       rescue
-        print "#{user.instagram_username} not public\n"
+        if user.instagram_username
+          print "#{user.instagram_username} not public\n"
+        else
+          print "error"
+        end
       end
     }
     print "\n"

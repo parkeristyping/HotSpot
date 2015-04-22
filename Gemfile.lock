@@ -24,8 +24,6 @@ GEM
       multipart-post (>= 1.2, < 3)
     faraday_middleware (0.9.1)
       faraday (>= 0.7.4, < 0.10)
-    google_places (0.30.0)
-      httparty (~> 0.13.1)
     hashie (3.4.1)
     htmlentities (4.3.3)
     httparty (0.13.3)
@@ -68,6 +66,7 @@ GEM
     tilt (1.4.1)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
+    wikipedia-client (1.3.3)
 
 PLATFORMS
   ruby
@@ -75,8 +74,8 @@ PLATFORMS
 DEPENDENCIES
   activerecord
   database_cleaner
-  google_places
   htmlentities
+  httparty
   instagram
   pry
   rake
@@ -85,3 +84,4 @@ DEPENDENCIES
   sinatra
   sqlite3
   thin
+  wikipedia-client
