@@ -15,6 +15,3 @@ gem "htmlentities"
 group :development do
   gem 'pry'
 end
-
-# gem "pg"
-# gem "sinatra-activerecord"

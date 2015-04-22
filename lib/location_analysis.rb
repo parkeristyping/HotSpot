@@ -1,95 +1,88 @@
 require_relative '../config/environment'
 
-# Define a distance calculator
-def distance loc1, loc2
-  rad_per_deg = Math::PI/180  # PI / 180
-  rkm = 6371                  # Earth radius in kilometers
-  rm = rkm * 1000             # Radius in meters
-
-  dlat_rad = (loc2[0]-loc1[0]) * rad_per_deg  # Delta, converted to rad
-  dlon_rad = (loc2[1]-loc1[1]) * rad_per_deg
-
-  lat1_rad, lon1_rad = loc1.map {|i| i * rad_per_deg }
-  lat2_rad, lon2_rad = loc2.map {|i| i * rad_per_deg }
-
-  a = Math.sin(dlat_rad/2)**2 + Math.cos(lat1_rad) * Math.cos(lat2_rad) * Math.sin(dlon_rad/2)**2
-  c = 2 * Math::atan2(Math::sqrt(a), Math::sqrt(1-a))
-
-  rm * c # Delta in meters
-end
-
 class Analyze
-  @@google_client = GooglePlaces::Client.new("AIzaSyCjMO586R2fZZjzfrcOAIzhdZ4QgS9oFxk")
-  @@threshold = 100
-  @@extension = 5
+  @@dist_threshold = 200
+  @@word_pct_threshold = 0.7
+
+  STOP_WORDS = [
+    'a','cannot','into','our','thus','about','co','is','ours','to','above',
+    'could','it','ourselves','together','across','down','its','out','too',
+    'after','during','itself','over','toward','afterwards','each','last','own',
+    'towards','again','eg','latter','per','under','against','either','latterly',
+    'perhaps','until','all','else','least','rather','up','almost','elsewhere',
+    'less','same','upon','alone','enough','ltd','seem','us','along','etc',
+    'many','seemed','very','already','even','may','seeming','via','also','ever',
+    'me','seems','was','although','every','meanwhile','several','we','always',
+    'everyone','might','she','well','among','everything','more','should','were',
+    'amongst','everywhere','moreover','since','what','an','except','most','so',
+    'whatever','and','few','mostly','some','when','another','first','much',
+    'somehow','whence','any','for','must','someone','whenever','anyhow',
+    'former','my','something','where','anyone','formerly','myself','sometime',
+    'whereafter','anything','from','namely','sometimes','whereas','anywhere',
+    'further','neither','somewhere','whereby','are','had','never','still',
+    'wherein','around','has','nevertheless','such','whereupon','as','have',
+    'next','than','wherever','at','he','no','that','whether','be','hence',
+    'nobody','the','whither','became','her','none','their','which','because',
+    'here','noone','them','while','become','hereafter','nor','themselves','who',
+    'becomes','hereby','not','then','whoever','becoming','herein','nothing',
+    'thence','whole','been','hereupon','now','there','whom','before','hers',
+    'nowhere','thereafter','whose','beforehand','herself','of','thereby','why',
+    'behind','him','off','therefore','will','being','himself','often','therein',
+    'with','below','his','on','thereupon','within','beside','how','once',
+    'these','without','besides','however','one','they','would','between','i',
+    'only','this','yet','beyond','ie','onto','those','you','both','if','or',
+    'though','your','but','in','other','through','yours','by','inc','others',
+    'throughout','yourself','can','indeed','otherwise','thru','yourselves'
+    ]
+
+  def self.filter_stopwords(array)
+    array.delete_if {|word|
+      STOP_WORDS.member?(word.downcase)
+    }
+  end
 
   def self.locations
-    # Lazy group posts within 50m
-    Post.all.each {|post|
-      if post.lat && !post.location_id
-        # Check to see if there is a nearby location
-        location_nearby = Location.all.any? {|location|
-          (distance([post.lat, post.lng],[location.lat, location.lng]) < @@threshold)
-        }
+    Location.destroy_all
+    # Find posts with lat/lng + location name, put array
+    relevant_posts = Post.all.select {|post| post.location_name && post.lat && post.lng}
 
-        if post.location_name
-          text_match_location = Location.all.find {|location|
-            words_in_location_name = post.location_name.split(" ")
-            words_in_location_name.delete_if {|x| x.length < 5}
-            text_match = words_in_location_name.any? {|word|
-              location.name =~ /#{word}/i
-            }
-            text_match && (distance([post.lat, post.lng],[location.lat, location.lng]) < (@@threshold * @@extension))
-          }
-        end
-        # If there is nearby location...
-        if location_nearby || text_match_location
-          if location_nearby
-            # Find nearest location
-            nearest_location = Location.all.min_by {|location|
-              distance([post.lat, post.lng],[location.lat, location.lng])
-            }
-            # Update location 
-            nearest_location.lat = (nearest_location.lat + post.lat) / 2.0
-            nearest_location.lng = (nearest_location.lat + post.lat) / 2.0
-            if post.location_name
-              nearest_location.name = post.location_name
-            end
-          else
-            nearest_location = text_match_location
-          end      
-          # add location ID to post
-          post.location_id = nearest_location.id
-          nearest_location.count += 1
-          # save updates
-          nearest_location.save
-          post.save
-          print "$"
-        # If not, add new location
-        else
-          l = Location.new
-          if post.location_name
-            l.name = post.location_name
-          else
-            establishment = @@google_client.spots(post.lat, post.lng).find {|y| y.types.include? "establishment"}
-            area = @@google_client.spots(post.lat, post.lng).first
-            if establishment
-              l.name = establishment.name
-            else
-              l.name = area.name
+    # For each of these
+    relevant_posts.each {|post|
+      # Search all other posts
+      matches = relevant_posts.select {|check_post|
+        match = false
+        if post != check_post
+          if distance([post.lat, post.lng],[check_post.lat, check_post.lng]) < @@dist_threshold
+            if post_location_sig_words = filter_stopwords(post.location_name.split(" "))
+              text_match_threshold = [1,(post_location_sig_words.size * @@word_pct_threshold).to_i].max
+              count = 0
+              post_location_sig_words.each {|word|
+                count += 1 if check_post.location_name.downcase.split(" ").include? word.downcase
+              }
+              match = true if count >= text_match_threshold
             end
           end
-          l.lat = post.lat
-          l.lng = post.lng
-          l.count = 1
-          l.save
-          l = Location.find_by(lat: post.lat, lng: post.lng)
+        end
+        match
+      }
+      # If result is returned,
+      if matches.size > 0
+        # Create new location
+        l = Location.new
+        l.name = post.location_name
+        l.lat = post.lat
+        l.lng = post.lng
+        l.save
+        # Add location id
+        post.location_id = l.id
+        post.save
+        matches.each {|post|
           post.location_id = l.id
           post.save
-          print "#"
-        end
+        }
+        # Delete matches
+        relevant_posts.delete_if {|post| matches.include? post}
       end
     }
-    print "\n"
   end
 end
