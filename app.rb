@@ -1,6 +1,7 @@
-require './config/environment'
-
 class App < Sinatra::Base
+  set :session_secret, "879sdfds8f7sdfsd"
+  enable :sessions
+
   CALLBACK_URL = "http://localhost:9393/auth/instagram/callback"
 
   Instagram.configure do |config|
@@ -23,7 +24,19 @@ class App < Sinatra::Base
   end
 
   get "/map" do
-    @locations = Location.all
+    # Create Instagram client
+    client = Instagram.client(:access_token => session[:access_token])
+
+    # Populate/update DB using client
+    @user = User.get_user(client)
+
+    # Add/update users followed by client and their recent posts
+    @user.update_followed_users
+
+    # Perform location analysis on posts of client's followed users
+    @user.create_locations
+
+    # Create map
     erb :map
   end
 end

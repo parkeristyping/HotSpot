@@ -8,8 +8,8 @@ class GooglePlacesAPI
   DETAILS_URL = "https://maps.googleapis.com/maps/api/place/details/json?"
   ENCODER = HTMLEntities.new
 
-  def initialize(api_key)
-    @api_key = api_key
+  def initialize
+    @api_key = "AIzaSyCjMO586R2fZZjzfrcOAIzhdZ4QgS9oFxk"
   end
 
   def nearby_search(lat, lng, name)
