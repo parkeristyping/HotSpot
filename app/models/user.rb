@@ -31,6 +31,8 @@ class User < ActiveRecord::Base
 
   def update_followed_users
     if update_needed?
+      self.last_update = Time.now
+      self.save
       client.user_follows.each {|followed_user|
         # Add / update followed user in DB
         followed_user = User.add_or_update(followed_user, self)
@@ -40,7 +42,7 @@ class User < ActiveRecord::Base
   end
 
   def create_locations
-    Location.create_for(self)
+    Location.create_for(self) if update_needed?
   end
 
   def update_needed?
