@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>HotSpot</title>
+  <style>
+    html { 
+      background: url(<%= ["\"images/splash1.png\"","\"images/splash2.png\"","\"images/splash3.png\""][rand(0..2)] %>) no-repeat center center fixed; 
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      -o-background-size: cover;
+      background-size: cover;
+    }
+    #button {
+      margin-top: 60vh;
+      width: 200px;
+      margin-left: auto;
+      margin-right: auto;
+      z-index: 2;
+    }
+  </style>
+</head>
+<body>
+ <div id="background"></div>
+ <div id= "button"><a href="/auth/instagram/connect"><img src="images/button_thin.png"></a></div>
+</body>
+</html>

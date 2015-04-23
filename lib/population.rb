@@ -1,8 +1,8 @@
 require_relative '../config/environment'
 
 Instagram.configure do |config|
-  config.client_id = "399548aa88ad4458ad3a0c347b07df06"
-  config.client_secret = "46b4b03b33ea4a2f96fb2f24bc33ed83"
+  config.client_id = "094bab4c239f462d9d009ded514f81c5"
+  config.client_secret = "d03785a57a634d72b8168fcf05328e45"
 end
 
 class Populate
