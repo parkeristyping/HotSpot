@@ -117,7 +117,7 @@
           overviewMapControl: true
         };
         var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-        var locations = <%= Location.list(@client.locations) %>;
+        var locations = <%= Location.list(@user.locations) %>;
         var infowindow = new google.maps.InfoWindow();
         var image = "images/diamondz.png";
         var marker, i;
@@ -150,7 +150,7 @@
 
       <div class="logo-box"><img src="images/hotspot_top_block.png"></div>
 
-      <% @client.locations.each do |location| %>
+      <% @user.locations.each do |location| %>
       <div class="location-box"><%= location.name.split.map { |i| i.capitalize }.join(' ') %></div>
       <% end %>
     </div>
