@@ -3,7 +3,7 @@
   <head>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
-    <title>HotSpot</title>
+    <title>hotspot</title>
     <style>
       html, body, #map-canvas {
         /*height: 100%;*/
@@ -68,6 +68,15 @@
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true"></script>
     <script>
       function initialize() {
+        var user_location;
+        function getLocation() {
+          if (navigator.geolocation) {
+              user_location = navigator.geolocation.getCurrentPosition(showPosition);
+          }
+        };
+
+        console.log(user_location);
+
         var myLatlng = new google.maps.LatLng(40.727231, -73.984195);
         var mapOptions = {
           zoom: 8,
