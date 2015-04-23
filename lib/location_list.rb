@@ -5,7 +5,7 @@ class LocationList
     output = []
     locations.each_with_index {|location, index|
       row = "[\'<div class=\"loc-name pop-out\">"
-      row << "<a href=\" #{location.url} \" style=\"color:#4169E1; font-size: 25px;\">" if location.url
+      row << "<a href=\"#{location.url}\" style=\"color:#4169E1; font-size: 25px;\">" if location.url
       row << "#{location.clean_name}"
       row << "</a>" if location.url
       row << "</div>"
