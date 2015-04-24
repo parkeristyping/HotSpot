@@ -32,7 +32,7 @@ class Location < ActiveRecord::Base
               text_match_threshold = [1,(post_location_sig_words.size * @@word_pct_threshold).to_i].max
               count = 0
               post_location_sig_words.each {|word|
-                count += 1 if check_post.location_name.downcase.split(" ").include? word.downcase
+                count += 1 if check_post.location_name.downcase.split(/[,.;]*[ ]/).include? word.downcase
               }
               match = true if count >= text_match_threshold
             end
@@ -40,6 +40,7 @@ class Location < ActiveRecord::Base
         end
         match
       }
+      binding.pry
       # If result is returned,
       if matches.size > 0
         # Create new location
