@@ -17,7 +17,7 @@ class User < ActiveRecord::Base
     user
   end
 
-  def self.add_or_update(user, followed_by=nil)
+  def self.add_or_update(user, followed_by=nil, category=nil)
     new_user = false
     user_from_db = User.where(instagram_id: user.id.to_i).first_or_create do |u|
       u.instagram_username = user.username
@@ -26,6 +26,8 @@ class User < ActiveRecord::Base
       new_user = true
     end
     followed_by.link_followed_user(user_from_db, new_user) if followed_by
+    user_from_db.category_id = category.id if category
+    user_from_db.save
     user_from_db
   end
 
@@ -42,7 +44,7 @@ class User < ActiveRecord::Base
   end
 
   def create_locations
-    Location.create_for(self) #if update_needed?
+    Location.create_for_user(self) #if update_needed?
   end
 
   def update_needed?

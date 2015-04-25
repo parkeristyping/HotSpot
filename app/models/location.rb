@@ -1,6 +1,7 @@
 class Location < ActiveRecord::Base
 
   belongs_to :user
+  belongs_to :category
   has_and_belongs_to_many :posts
 
   @@dist_threshold = 200
@@ -13,7 +14,7 @@ class Location < ActiveRecord::Base
     }
   end
 
-  def self.create_for(user)
+  def self.create_for_user(user)
     # Destroy previous locations
     destroy_all(:user_id => user.id)
 
@@ -53,7 +54,7 @@ class Location < ActiveRecord::Base
         matches.each {|p| l.posts << p}
         l.save
         # Delete matches
-        relevant_posts.delete_if {|post| matches.include? post}
+        relevant_posts.delete_if {|p| matches.include? p || (p == post)}
       end
     }
 
@@ -61,6 +62,61 @@ class Location < ActiveRecord::Base
     Location.where(:user_id => user.id).each {|location|
       location.count = location.posts.map{|p| p.user_id}.uniq.size
       location.save
+    }
+  end
+
+  def self.create_for_category(category)
+    # Destroy previous locations
+    destroy_all(:category_id => category.id)
+
+    # Find posts relevant to category
+    user_ids = category.users.map {|u| u.id}
+    relevant_posts = Post.all.select {|post| user_ids.include? post.user_id}
+
+    # For each of these
+    relevant_posts.each {|post|
+      # Search all other posts
+      matches = relevant_posts.select {|check_post|
+        match = false
+        if post != check_post
+          if distance([post.lat, post.lng],[check_post.lat, check_post.lng]) < @@dist_threshold
+            if post_location_sig_words = filter_stopwords(post.location_name.split(" "))
+              text_match_threshold = [1,(post_location_sig_words.size * @@word_pct_threshold).to_i].max
+              count = 0
+              post_location_sig_words.each {|word|
+                count += 1 if check_post.location_name.downcase.split(/[,.;]*[ ]/).include? word.downcase
+              }
+              match = true if count >= text_match_threshold
+            end
+          end
+        end
+        match
+      }
+      # If result is returned,
+      if matches.size > 0
+        # Create new location
+        l = Location.new
+        l.name = post.location_name
+        l.lat = post.lat
+        l.lng = post.lng
+        l.category_id = category.id
+        l.url = l.get_url
+        l.posts << post
+        matches.each {|p| l.posts << p}
+        l.save
+        # Delete matches
+        relevant_posts.delete_if {|p| (matches.include? p) || (p == post)}
+      else
+        l = Location.new
+        l.name = post.location_name
+        l.lat = post.lat
+        l.lng = post.lng
+        l.category_id = category.id
+        l.url = l.get_url
+        l.posts << post
+        l.save
+        relevant_posts.delete_if {|p| p == post}
+      end
     }
   end
 

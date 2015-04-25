@@ -41,3 +41,10 @@ namespace :create do
     Analyze.locations
   end
 end
+
+namespace :categories do
+  desc "Populates categories"
+  task :populate do
+    Category.create
+  end
+end

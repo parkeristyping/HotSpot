@@ -28,15 +28,23 @@ class App < Sinatra::Base
     client = Instagram.client(:access_token => session[:access_token])
 
     # Populate/update DB using client
-    @user = User.get_user(client)
+    user = User.get_user(client)
 
     # Add/update users followed by client and their recent posts
-    @user.update_followed_users
+    user.update_followed_users
 
     # Perform location analysis on posts of client's followed users
-    @user.create_locations
+    user.create_locations
+
+    @locations = user.locations
 
     # Create map
     erb :map
   end
+
+  get "/map/:category" do
+    category = Category.find_by(:name => :category)
+    @locations = category.locations
+  end
+
 end
