@@ -5,10 +5,7 @@ class Post < ActiveRecord::Base
 
   # Update followed user's posts in DB
   def self.add_to_db(user, client)
-    # posts = client.get("https://api.instagram.com/v1/users/" + user.instagram_id.to_s + "/media/recent")
-    
-    binding.pry
-    posts = client.
+    posts = client.get("https://api.instagram.com/v1/users/" + user.instagram_id.to_s + "/media/recent")
 
     posts.each {|post|
       if post["location"] && post["location"]["latitude"] && post["location"]["name"]

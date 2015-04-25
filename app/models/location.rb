@@ -26,7 +26,7 @@ class Location < ActiveRecord::Base
       # Search all other posts
       matches = relevant_posts.select {|check_post|
         match = false
-        if post != check_post
+        if post != check_post && post.user_id != check_post.user_id
           if distance([post.lat, post.lng],[check_post.lat, check_post.lng]) < @@dist_threshold
             if post_location_sig_words = filter_stopwords(post.location_name.split(" "))
               text_match_threshold = [1,(post_location_sig_words.size * @@word_pct_threshold).to_i].max
@@ -40,7 +40,6 @@ class Location < ActiveRecord::Base
         end
         match
       }
-      binding.pry
       # If result is returned,
       if matches.size > 0
         # Create new location
@@ -88,10 +87,14 @@ class Location < ActiveRecord::Base
   end
 
   def get_url
-    if google_url = @@google_client.get_url(lat, lng, name)
-      google_url
-    elsif (wiki = Wikipedia.find(name, :prop => "info")) && (wiki.page["pageid"] != -1)
-      wiki.fullurl
+    begin
+      if google_url = @@google_client.get_url(lat, lng, name)
+        google_url
+      elsif (wiki = Wikipedia.find(name, :prop => "info")) && (wiki.page["pageid"] != -1)
+        wiki.fullurl
+      end
+    rescue
+      puts "Url Error"
     end
   end
 
