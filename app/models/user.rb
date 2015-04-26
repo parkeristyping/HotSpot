@@ -1,5 +1,6 @@
 class User < ActiveRecord::Base
 
+  belongs_to :cat
   has_many :posts
   has_many :locations
 
@@ -26,7 +27,7 @@ class User < ActiveRecord::Base
       new_user = true
     end
     followed_by.link_followed_user(user_from_db, new_user) if followed_by
-    user_from_db.category_id = category.id if category
+    user_from_db.cat_id = category.id if category
     user_from_db.save
     user_from_db
   end

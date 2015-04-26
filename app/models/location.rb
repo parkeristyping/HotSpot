@@ -1,7 +1,7 @@
 class Location < ActiveRecord::Base
 
   belongs_to :user
-  belongs_to :category
+  belongs_to :cat
   has_and_belongs_to_many :posts
 
   @@dist_threshold = 200
@@ -67,16 +67,21 @@ class Location < ActiveRecord::Base
 
   def self.create_for_category(category)
     # Destroy previous locations
-    destroy_all(:category_id => category.id)
+    binding.pry
+    destroy_all(:cat_id => category.id)
 
     # Find posts relevant to category
+    binding.pry
     user_ids = category.users.map {|u| u.id}
     relevant_posts = Post.all.select {|post| user_ids.include? post.user_id}
 
+    binding.pry
     # For each of these
     relevant_posts.each {|post|
+      binding.pry
       # Search all other posts
       matches = relevant_posts.select {|check_post|
+        binding.pry
         match = false
         if post != check_post
           if distance([post.lat, post.lng],[check_post.lat, check_post.lng]) < @@dist_threshold

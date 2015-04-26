@@ -27,3 +27,15 @@ x.save
 # Post.all.first.locations << Location.all.first
 
 # binding.pry
+
+Cat.create
+
+Cat.all.each {|cat|
+  cat.update_users
+}
+
+Cat.all.each {|cat|
+  cat.create_locations
+}
+
+binding.pry

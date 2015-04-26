@@ -43,7 +43,7 @@ class App < Sinatra::Base
   end
 
   get "/map/:category" do
-    category = Category.find_by(:name => :category)
+    category = Cat.find_by(:name => :category)
     @locations = category.locations
   end
 
