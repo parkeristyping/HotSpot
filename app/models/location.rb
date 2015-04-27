@@ -118,7 +118,7 @@ class Location < ActiveRecord::Base
       end
     }
     # Calculate count
-    Location.where(:user_id => user.id).each {|location|
+    Location.where(:cat_id => category.id).each {|location|
       location.count = location.posts.map{|p| p.user_id}.uniq.size
       location.save
     }
@@ -140,7 +140,7 @@ class Location < ActiveRecord::Base
         row << "<div class=\"post-caption\">#{post.clean_text}</div>"
         row << "</div>"
       }
-      row << "</div>\', #{location.lat.round(6)}, #{location.lng.round(6)}, #{index}"
+      row << "</div>\', #{location.lat.round(6)}, #{location.lng.round(6)}, #{location.count}"
       row << "]"
       output << row
       }

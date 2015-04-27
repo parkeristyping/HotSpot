@@ -1,7 +1,8 @@
 <div class="sidebar">
   <div class="logo-box"><img src="../images/hotspot_top_block.png"></div>
   <div class="location-wrapper">
-    <% @locations.each_with_index do |location, index| %>
+    <% sorted_locations = @locations.sort_by{|x| x.count}.reverse %>
+    <% sorted_locations.each_with_index do |location, index| %>
       <div class="location-box" onclick="myClick(<%= index %>);" onmouseover="" style="cursor: pointer;">
         <p class="align-left"><%= location.name.split.map { |i| i.capitalize }.join(' ') %></p>
         <p class="align-right"><%= location.count %></p>
@@ -41,13 +42,13 @@
     }
     var locations = <%= Location.list(@locations) %>;
     var infowindow = new google.maps.InfoWindow();
-    var image = "images/diamondz.png";
+    var images = ["images/small_diamond.png","images/diamondz.png"];
     var marker, i;
-    for (i = 0; i < locations.length; i++) {  
+    for (i = 0; i < locations.length; i++) {
       marker = new google.maps.Marker({
         position: new google.maps.LatLng(locations[i][1], locations[i][2]),
         map: map,
-        icon: image
+        icon: images[Math.min(locations[i][3],2)-1]
       });
       google.maps.event.addListener(marker, 'click', (function(marker, i) {
         return function() {
