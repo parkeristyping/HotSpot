@@ -13,6 +13,10 @@ class App < Sinatra::Base
     erb :splash
   end
 
+  get "/loading" do
+    erb :load
+  end
+
   get "/auth/instagram/connect" do
     redirect Instagram.authorize_url(:redirect_uri => CALLBACK_URL)
   end
@@ -24,27 +28,31 @@ class App < Sinatra::Base
   end
 
   get "/map" do
-    # Create Instagram client
-    client = Instagram.client(:access_token => session[:access_token])
+    if session[:category]
+      category = Cat.find_by(:name => session[:category])
+      @locations = category.locations
+    else
+      # Create Instagram client
+      client = Instagram.client(:access_token => session[:access_token])
 
-    # Populate/update DB using client
-    user = User.get_user(client)
+      # Populate/update DB using client
+      user = User.get_user(client)
 
-    # Add/update users followed by client and their recent posts
-    user.update_followed_users
+      # Add/update users followed by client and their recent posts
+      user.update_followed_users
 
-    # Perform location analysis on posts of client's followed users
-    user.create_locations
+      # Perform location analysis on posts of client's followed users
+      user.create_locations
 
-    @locations = user.locations
-
+      @locations = user.locations
+    end
     # Create map
     erb :map
   end
 
   get "/map/:category" do
-    category = Cat.find_by(:name => :category)
-    @locations = category.locations
+    session[:category] = params[:category]
+    redirect "/map"
   end
 
 end

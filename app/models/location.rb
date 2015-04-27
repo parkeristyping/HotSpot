@@ -54,7 +54,7 @@ class Location < ActiveRecord::Base
         matches.each {|p| l.posts << p}
         l.save
         # Delete matches
-        relevant_posts.delete_if {|p| matches.include? p || (p == post)}
+        relevant_posts.delete_if {|p| matches.include? p}
       end
     }
 
@@ -67,21 +67,16 @@ class Location < ActiveRecord::Base
 
   def self.create_for_category(category)
     # Destroy previous locations
-    binding.pry
     destroy_all(:cat_id => category.id)
 
     # Find posts relevant to category
-    binding.pry
     user_ids = category.users.map {|u| u.id}
     relevant_posts = Post.all.select {|post| user_ids.include? post.user_id}
 
-    binding.pry
     # For each of these
     relevant_posts.each {|post|
-      binding.pry
       # Search all other posts
       matches = relevant_posts.select {|check_post|
-        binding.pry
         match = false
         if post != check_post
           if distance([post.lat, post.lng],[check_post.lat, check_post.lng]) < @@dist_threshold
@@ -104,23 +99,22 @@ class Location < ActiveRecord::Base
         l.name = post.location_name
         l.lat = post.lat
         l.lng = post.lng
-        l.category_id = category.id
+        l.cat_id = category.id
         l.url = l.get_url
         l.posts << post
         matches.each {|p| l.posts << p}
         l.save
-        # Delete matches
-        relevant_posts.delete_if {|p| (matches.include? p) || (p == post)}
+        # Delete matches - do not delete current post because that will fuck up "each" and won't speed anything
+        relevant_posts.delete_if {|p| matches.include? p}
       else
         l = Location.new
         l.name = post.location_name
         l.lat = post.lat
         l.lng = post.lng
-        l.category_id = category.id
+        l.cat_id = category.id
         l.url = l.get_url
         l.posts << post
         l.save
-        relevant_posts.delete_if {|p| p == post}
       end
     }
   end

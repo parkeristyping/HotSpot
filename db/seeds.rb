@@ -29,13 +29,7 @@ x.save
 # binding.pry
 
 Cat.create
-
-Cat.all.each {|cat|
-  cat.update_users
-}
-
-Cat.all.each {|cat|
-  cat.create_locations
-}
+Cat.all.each {|category| category.update_posts}
+Cat.all.each {|category| category.create_locations}
 
 binding.pry

@@ -29,10 +29,8 @@ class Cat < ActiveRecord::Base
     end
   end
 
-  def update_users
+  def update_posts
     self.users.each {|user|
-      # Add / update followed user in DB
-      user = User.add_or_update(user, self)
       Post.add_to_db(user, Instagram)
     }
   end
