@@ -1,0 +1,118 @@
+html, body, 
+        #map-canvas {
+        margin: 0px;
+        padding: 0px;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        z-index: 1;
+      }
+      #logo {
+       position: absolute;
+       right: 60px;
+       bottom: 16px;
+       z-index: 2;
+      }
+      
+      .pop-out {
+        font-family: 'Raleway', sans-serif;
+        color: black;
+        
+      }
+      .post-wrap {
+        width: 320px;
+        color: black;
+        display: block;
+      }
+      .post-thumb {
+        margin-top: 5px;
+        display: block;
+        border-style: solid;
+        border-width: 4px;
+        border-radius: 2px;
+        border
+      }
+      .user {
+        font-family: 'Raleway', sans-serif;
+        font-weight: bold;
+      }
+
+      .logo-box {
+        position: absolute;
+        width: 100%;
+        color: white;
+        padding: 5px;
+        margin-left: 30px;
+        margin-bottom: 20px;
+        opacity: 100;
+        z-index: 4;
+      }
+
+      .sidebar {
+        height: 94vh;
+        margin-top: 3vh;
+        margin-bottom: 3vh;
+        width: 350px;
+        margin-left: 10px;
+        position: absolute;
+        vertical-align: left;
+        z-index: 3;
+        background-color: gray;
+        opacity: 0.9;
+        border-radius: 25px;
+      }
+
+      .location-wrapper {
+        margin-top: 110px;
+        height: 80%;
+        overflow-y: scroll;
+        overflow-x: hidden;
+      }
+
+      div.location-box {
+        width: 98%;
+        color: white;
+        height: 6vh;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 3px;
+        font-family: 'Raleway', sans-serif;
+        background-image: url("../images/box.jpg");
+        clear: both;
+      }
+
+      div.location-box .align-left {
+        float: left;
+        padding-left: 10px;
+      }
+
+      div.location-box .align-right {
+        float: right;
+        padding-right: 10px;
+      }
+
+      div.location-box:hover {
+        background-image: url("../images/box-hover.jpg");
+      }
+
+      div.location-box:active {
+        background-image: url("../images/box.jpg");
+      }
+
+      .made-by {
+        font:normal 14px 'Raleway', sans-serif;
+        text-align: center;
+        margin-top: 3%;
+      }
+
+      .made-by a {
+        color: black;
+        text-decoration: none;
+      }
+
+      .made-by a:hover {
+        color: #333;
+      }
+      .made-by a:active {
+        color: white;
+      }

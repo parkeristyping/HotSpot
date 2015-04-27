@@ -10,10 +10,16 @@ class App < Sinatra::Base
   end
 
   get "/" do
+    session[:category] = nil
     erb :splash
   end
 
-  get "/loading" do
+  get "/main" do
+    erb :load
+  end
+
+  get "/main/:category" do
+    session[:category] = params[:category] if params[:category]
     erb :load
   end
 
@@ -24,7 +30,7 @@ class App < Sinatra::Base
   get "/auth/instagram/callback" do
     response = Instagram.get_access_token(params[:code], :redirect_uri => CALLBACK_URL)
     session[:access_token] = response.access_token
-    redirect "/map"
+    redirect "/main"
   end
 
   get "/map" do
@@ -48,11 +54,6 @@ class App < Sinatra::Base
     end
     # Create map
     erb :map
-  end
-
-  get "/map/:category" do
-    session[:category] = params[:category]
-    redirect "/map"
   end
 
 end
