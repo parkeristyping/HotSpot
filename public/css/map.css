@@ -1,3 +1,4 @@
+/* map background */
 html, body, 
         #map-canvas {
         margin: 0px;
@@ -7,112 +8,153 @@ html, body,
         position: absolute;
         z-index: 1;
       }
-      #logo {
-       position: absolute;
-       right: 60px;
-       bottom: 16px;
-       z-index: 2;
-      }
-      
-      .pop-out {
-        font-family: 'Raleway', sans-serif;
-        color: black;
-        
-      }
-      .post-wrap {
-        width: 320px;
-        color: black;
-        display: block;
-      }
-      .post-thumb {
-        margin-top: 5px;
-        display: block;
-        border-style: solid;
-        border-width: 4px;
-        border-radius: 2px;
-        border
-      }
-      .user {
-        font-family: 'Raleway', sans-serif;
-        font-weight: bold;
-      }
 
-      .logo-box {
-        position: absolute;
-        width: 100%;
-        color: white;
-        padding: 5px;
-        margin-left: 30px;
-        margin-bottom: 20px;
-        opacity: 100;
-        z-index: 4;
-      }
+/* logo in bottom right corner */
+#logo {
+ position: absolute;
+ right: 60px;
+ bottom: 16px;
+ z-index: 2;
+}
 
-      .sidebar {
-        height: 94vh;
-        margin-top: 3vh;
-        margin-bottom: 3vh;
-        width: 350px;
-        margin-left: 10px;
-        position: absolute;
-        vertical-align: left;
-        z-index: 3;
-        background-color: gray;
-        opacity: 0.9;
-        border-radius: 25px;
-      }
+/* infowindow main styling */
+.info-window {
+  font-family: 'Raleway', sans-serif;
+  color: black;
+}
 
-      .location-wrapper {
-        margin-top: 110px;
-        height: 80%;
-        overflow-y: scroll;
-        overflow-x: hidden;
-      }
+/* location at top of infowindow */
+.loc-name {
+  margin-top: 10px;
+  width: 320px;
+  font-size: 20px;
+  font-weight: bold;
+}
 
-      div.location-box {
-        width: 98%;
-        color: white;
-        height: 6vh;
-        margin-left: auto;
-        margin-right: auto;
-        margin-bottom: 3px;
-        font-family: 'Raleway', sans-serif;
-        background-image: url("../images/box.jpg");
-        clear: both;
-      }
+.loc-url a {
+  color: gray;
+  text-decoration: underline;
+}
 
-      div.location-box .align-left {
-        float: left;
-        padding-left: 10px;
-      }
+.loc-url a:hover {
+  color: black;
+}
 
-      div.location-box .align-right {
-        float: right;
-        padding-right: 10px;
-      }
+.loc-url a:active {
+  color: gray;
+}
 
-      div.location-box:hover {
-        background-image: url("../images/box-hover.jpg");
-      }
+/* wrapper for each post in infowindow  */
+.post-wrap {
+  width: 320px;
+  color: black;
+  display: block;
+}
 
-      div.location-box:active {
-        background-image: url("../images/box.jpg");
-      }
+/* post picture */
+.post-pic {
+  width: 95.5%;
+  margin-top: 10px;
+  margin-bottom: 5px;
+  display: block;
+  border-style: solid;
+  border-width: 4px;
+  border-radius: 2px;
+  border
+}
 
-      .made-by {
-        font:normal 14px 'Raleway', sans-serif;
-        text-align: center;
-        margin-top: 3%;
-      }
+/* post username */
+.user {
+  font-family: 'Raleway', sans-serif;
+  font-weight: bold;
+}
 
-      .made-by a {
-        color: black;
-        text-decoration: none;
-      }
+/* sidebar wrapper */
+.sidebar {
+  height: 94vh;
+  margin-top: 3vh;
+  margin-bottom: 3vh;
+  width: 350px;
+  margin-left: 10px;
+  position: absolute;
+  vertical-align: left;
+  z-index: 3;
+  background-color: gray;
+  opacity: 0.9;
+  border-radius: 25px;
+}
 
-      .made-by a:hover {
-        color: #333;
-      }
-      .made-by a:active {
-        color: white;
-      }
+/* logo in sidebar */
+.logo-box {
+  position: absolute;
+  width: 100%;
+  color: white;
+  padding: 5px;
+  margin-left: 30px;
+  margin-bottom: 20px;
+  opacity: 100;
+  z-index: 4;
+}
+
+/* wrapper for location boxes */
+.location-wrapper {
+  margin-top: 110px;
+  height: 80%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+/* location */
+div.location-box {
+  width: 98%;
+  color: white;
+  height: 6vh;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 3px;
+  font-family: 'Raleway', sans-serif;
+  background-image: url("../images/box.jpg");
+  clear: both;
+}
+
+/* change background on hover */
+div.location-box:hover {
+  background-image: url("../images/box-hover.jpg");
+}
+
+/* change background on click */
+div.location-box:active {
+  background-image: url("../images/box.jpg");
+}
+
+/* location name */
+div.location-box .align-left {
+  float: left;
+  padding-left: 10px;
+}
+
+/* location count */
+div.location-box .align-right {
+  float: right;
+  padding-right: 10px;
+}
+
+/* made by text */
+.made-by {
+  font:normal 14px 'Raleway', sans-serif;
+  text-align: center;
+  margin-top: 3%;
+}
+
+/* made by link styling */
+.made-by a {
+  color: black;
+  text-decoration: none;
+}
+
+.made-by a:hover {
+  color: #333;
+}
+.made-by a:active {
+  color: white;
+}
