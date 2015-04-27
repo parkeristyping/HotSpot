@@ -20,7 +20,7 @@ class App < Sinatra::Base
 
   get "/main/:category" do
     session[:category] = params[:category] if params[:category]
-    erb :load
+    redirect "/main"
   end
 
   get "/auth/instagram/connect" do

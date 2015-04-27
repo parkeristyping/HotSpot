@@ -117,6 +117,11 @@ class Location < ActiveRecord::Base
         l.save
       end
     }
+    # Calculate count
+    Location.where(:user_id => user.id).each {|location|
+      location.count = location.posts.map{|p| p.user_id}.uniq.size
+      location.save
+    }
   end
 
   def self.list(locations)
@@ -150,7 +155,7 @@ class Location < ActiveRecord::Base
         wiki.fullurl
       end
     rescue
-      puts "Url Error"
+      puts "#{name} had URL Error"
     end
   end
 

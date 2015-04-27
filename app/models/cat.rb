@@ -23,7 +23,7 @@ class Cat < ActiveRecord::Base
           user = Instagram.user_search(username).first
           User.add_or_update(user, nil, category)
         rescue
-          puts "User not found"
+          puts "#{username} not found"
         end
       }
     end
