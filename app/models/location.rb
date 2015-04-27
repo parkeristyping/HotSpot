@@ -126,6 +126,7 @@ class Location < ActiveRecord::Base
 
   def self.list(locations)
     output = []
+    locations = locations.sort_by{|x|x.count}.reverse
     locations.each_with_index {|location, index|
       row = "[\'<div class=\"info-window\">"
       row << "<div class=\"loc-name\">#{location.clean_name}</div>"
