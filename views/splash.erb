@@ -5,10 +5,10 @@
   <link rel="stylesheet" href="http://fontawesome.io/assets/font-awesome/css/font-awesome.css">
   <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
   <meta charset="UTF-8">
-  <title>HotSpot</title>
+  <title>_hotspot_</title>
   <style>
     html { 
-      background: url(<%= ["\"images/splash2.png\"","\"images/splash3.png\"","\"images/splash4.png\"","\"images/splash5.png\""][rand(0..3)] %>) no-repeat center center fixed; 
+      background: url(<%= ["\"images/splash1.png\"","\"images/splash2.png\"","\"images/splash3.png\"","\"images/splash4.png\"","\"images/splash5.png\""][rand(0..4)] %>) no-repeat center center fixed; 
       -webkit-background-size: cover;
       -moz-background-size: cover;
       -o-background-size: cover;
@@ -25,11 +25,12 @@
     vertical-align: middle;
     left:0;
     right:0;
+    opacity: 0.85;
     }
 
     #OR {
     text-decoration: none;
-    margin-top: 4px;
+    margin-top: 5.5px;
     margin-bottom: 7px;
     text-align: center;
     color: white;
@@ -39,7 +40,7 @@
     display: block;
     width: 190px;
     background: #ECF0F1;
-    padding: 12px 15px;
+    padding: 10px 12px;
     font-family: 'Lato', sans-serif;
     font-size: 14px;
     line-height: 14px;
@@ -63,6 +64,7 @@
     padding: 0;
     margin: 0;
     font-family: 'Lato', sans-serif;
+    font-size: 14px;
     box-sizing: border-box;
     color:inherit;
     }
@@ -83,9 +85,14 @@
 
     dropdown label, dropdown ul li{
     display: block;
-    width: 190px;
+    width: 188px;
     background: #ECF0F1;
-    padding: 8px 15px;
+    padding: 9px 15px;
+    }
+
+    dropdown label, dropdown ul li:last-child{
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px; 
     }
 
     dropdown label:hover, dropdown ul li:hover{ /*when hovering over*/
@@ -100,6 +107,8 @@
     border-radius: 0 5px 0 0;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
     position: relative;
     z-index: 2;
     } 
@@ -119,6 +128,8 @@
     dropdown input:checked + label{
     background: white; /*color of label when dropped*/
     color: black;
+    border-bottom-right-radius: 0px;
+    border-bottom-left-radius: 0px; 
     }
 
     dropdown input:checked ~ ul{
