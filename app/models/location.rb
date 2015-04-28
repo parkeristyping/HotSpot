@@ -137,7 +137,7 @@ class Location < ActiveRecord::Base
         name = post.user.instagram_username if (name == "" or !name)
         row << "<div class=\"post-wrap\">"
         row << "<div class=\"post-pic\"><img src=\"#{post.content_url}\" ></div>"
-        row << "<div class=\"user\">#{name}</div>"
+        row << "<div class=\"user\">Name</div>"
         row << "<div class=\"post-caption\">#{post.clean_text}</div>"
         row << "</div>"
       }

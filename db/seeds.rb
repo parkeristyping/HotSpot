@@ -29,8 +29,5 @@ x.save
 # binding.pry
 
 Cat.create
-binding.pry
 Cat.all.each {|category| category.update_posts}
-binding.pry
 Cat.all.each {|category| category.create_locations}
-binding.pry
