@@ -4,7 +4,10 @@
     <% sorted_locations = @locations.sort_by{|x| x.count}.reverse %>
     <% sorted_locations.each_with_index do |location, index| %>
       <div class="location-box" onclick="myClick(<%= index %>);" onmouseover="" style="cursor: pointer;">
-        <p class="align-left"><%= location.name.split.map { |i| i.capitalize }.join(' ') %></p>
+        <p class="align-left">
+        <% location_name = location.name.split.map{|i|i.capitalize}.join(' ') %>
+        <%= location_name[0..[34,location_name.size].min] %>
+        </p>
         <p class="align-right"><%= location.count %></p>
       </div>
     <% end %>

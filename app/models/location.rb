@@ -55,6 +55,15 @@ class Location < ActiveRecord::Base
         l.save
         # Delete matches
         relevant_posts.delete_if {|p| matches.include? p}
+      else
+        l = Location.new
+        l.name = post.location_name
+        l.lat = post.lat
+        l.lng = post.lng
+        l.user_id = user.id
+        l.url = l.get_url
+        l.posts << post
+        l.save
       end
     }
 
@@ -137,7 +146,7 @@ class Location < ActiveRecord::Base
         name = post.user.instagram_username if (name == "" or !name)
         row << "<div class=\"post-wrap\">"
         row << "<div class=\"post-pic\"><img src=\"#{post.content_url}\" ></div>"
-        row << "<div class=\"user\">Name</div>"
+        row << "<div class=\"user\">#{name}</div>"
         row << "<div class=\"post-caption\">#{post.clean_text}</div>"
         row << "</div>"
       }

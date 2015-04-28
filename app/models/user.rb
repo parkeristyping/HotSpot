@@ -45,7 +45,7 @@ class User < ActiveRecord::Base
   end
 
   def create_locations
-    Location.create_for_user(self) #if update_needed?
+    Location.create_for_user(self) if update_needed?
   end
 
   def update_needed?
