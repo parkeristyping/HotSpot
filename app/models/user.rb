@@ -10,7 +10,7 @@ class User < ActiveRecord::Base
   has_many :followed_by_users, :through => :followed_by_users_association, :source => :user
 
   attr_accessor :client
-  @@update_time = (4 * 60 * 60) # 4 hours
+  @@update_time = (48 * 60 * 60) # 48 hours
 
   def self.get_user(client)
     user = add_or_update(client.user)
@@ -34,8 +34,6 @@ class User < ActiveRecord::Base
 
   def update_followed_users
     if update_needed?
-      self.last_update = Time.now
-      self.save
       client.user_follows.each {|followed_user|
         # Add / update followed user in DB
         followed_user = User.add_or_update(followed_user, self)
@@ -45,7 +43,11 @@ class User < ActiveRecord::Base
   end
 
   def create_locations
-    Location.create_for_user(self) if update_needed?
+    if update_needed?
+      self.last_update = Time.now
+      self.save
+      Location.create_for_user(self)
+    end
   end
 
   def update_needed?
