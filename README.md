@@ -10,3 +10,9 @@ Upon visiting Hotspot, users are given two options:
 The app uses the Instagram API to find recent location-enabled posts by the selected user group. It then uses the name and location data to query the Google Places API to find a corresponding website for the location. Using this data, HotSpot populates a map created with the Google Maps JavaScript API. Users can click on points on the map to view the post(s) associated with that location, and locations with posts from more than one unique user are given a different icon to denote them as "hot spots".
 
 The server was built using the Sinatra framework in Ruby.
+
+## Screenshot
+
+![hotspot screenshot1]()
+
+![hotspot screenshot2]()
