@@ -13,6 +13,6 @@ The server was built using the Sinatra framework in Ruby.
 
 ## Screenshots
 
-![hotspot screenshot1]()
+![hotspot screenshot1](https://raw.githubusercontent.com/parkeristyping/HotSpot2/master/hotspot%20screenshot%201.png)
 
-![hotspot screenshot2]()
+![hotspot screenshot2](https://raw.githubusercontent.com/parkeristyping/HotSpot2/master/hotspot%20screenshot%202.png)
