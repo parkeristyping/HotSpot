@@ -11,7 +11,7 @@ The app uses the Instagram API to find recent location-enabled posts by the sele
 
 The server was built using the Sinatra framework in Ruby.
 
-## Screenshot
+## Screenshots
 
 ![hotspot screenshot1]()
 
